@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "KGTenThousandReasons";
+  src: url("KGTenThousandReasons.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "KGTenThousandReasonsAlt";
+  src: url("KGTenThousandReasonsAlt.ttf") format("truetype");
+}

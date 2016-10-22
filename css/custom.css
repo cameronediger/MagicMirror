@@ -12,3 +12,13 @@
  body {
  	
  }
+
+.time span {
+  margin-left: 10px;
+}
+
+.cecalendar
+{
+  margin-top: 30%  !important;
+  width: 375px;
+}
