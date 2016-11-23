@@ -1,0 +1,28 @@
+.cmeDashboard
+{
+	height: 35px;
+	width: 100%;
+	color: #fefefe;
+	position: fixed;
+	bottom: 0;
+}
+
+.dashboardTitle
+{
+	max-width: 30px;
+}
+
+.warnStatus
+{
+	color: #f2a3bd;
+}
+
+.normalStatus
+{
+	color: #94c0cc;	/* blue */
+}
+
+.activeStatus
+{
+	color: #bcdf8a;	/* green */
+}
