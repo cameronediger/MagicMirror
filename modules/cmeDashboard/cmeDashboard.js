@@ -25,6 +25,7 @@ Module.register("cmeDashboard",{
 		Log.info("Starting module: " + this.name);
 		
 		this.yardsitterStatus = "";
+		this.garageStatus = "";
 		this.loaded = false;
 		this.scheduleUpdate(2500);
 		
@@ -64,8 +65,13 @@ Module.register("cmeDashboard",{
 		DashboardRow.appendChild(garageWrapper);
 		
 		var garageStatusWrap = document.createElement("td");
-		garageStatusWrap.className = "align-left warnStatus";
-		garageStatusWrap.innerHTML = "NOT CONNECTED";
+		garageStatusWrap.innerHTML = this.garageStatus;
+		if(this.garageStatus.indexOf("CLOSED") >= 0) {
+			garageStatusWrap.className = "align-left normalStatus";
+		}
+		else {
+			garageStatusWrap.className = "align-left warnStatus";
+		}
 		DashboardRow.appendChild(garageStatusWrap);
 		
 		DashboardTable.appendChild(DashboardRow);
@@ -74,6 +80,31 @@ Module.register("cmeDashboard",{
 		return wrapper;
 	},
 	
+	GetGarageStatus: function() {
+		console.log("GetGarageStatus()...");
+		var strUrl = "http://blake:8080/rest/items/itm_garage_doorst/state";
+		var self = this;
+
+		var retry = true;
+
+		var statusRequest = new XMLHttpRequest();
+		statusRequest.open("GET", strUrl, true);
+		console.log("  garage status 1");
+		statusRequest.onreadystatechange = function() {
+			if(this.readyState === 4) {
+				if(this.status === 200) {
+					console.log(this.response);
+					self.garageStatus = this.response;
+
+					self.loaded = true;
+					self.updateDom(self.config.animationSpeed);
+				}
+			}
+		};
+
+		statusRequest.send();
+	},
+
 	GetDeviceStatus: function () {
 		//https://api.particle.io/v1/devices/50ff72065067545617450587/currstatus?access_token=64da087b8204a55fea660ec1813ce19d3527bdad
 		
@@ -176,6 +207,7 @@ Module.register("cmeDashboard",{
 		clearTimeout(this.updateTimer);
 		this.updateTimer = setTimeout(function() {
 			self.GetDeviceStatus();
+			self.GetGarageStatus();
 		}, nextLoad);
 	},
 });
